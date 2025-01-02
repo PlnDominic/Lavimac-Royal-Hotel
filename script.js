@@ -61,3 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+document.getElementById('view-toggle').addEventListener('click', function() {
+    if (window.innerWidth > 600) {
+        window.resizeTo(375, 667); // iPhone size
+    } else {
+        window.resizeTo(1024, 768); // Desktop size
+    }
+});
