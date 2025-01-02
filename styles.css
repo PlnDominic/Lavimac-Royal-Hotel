@@ -5,37 +5,6 @@
     --container-width-sm: 94%;
 }
 
-/* Header and Navigation Styles */
-.header {
-    background: white;
-    padding: 1rem 0;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-nav {
-    width: var(--container-width-lg);
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo img {
-    height: 50px;
-    width: auto;
-}
-
-/* First Block Styles */
-.first-block {
-    margin-top: 80px; /* Add space for fixed header */
-    padding: 20px;
-    text-align: center;
-}
-
 /* Container responsiveness */
 .container {
     width: var(--container-width-lg);
@@ -145,42 +114,6 @@ nav {
     .footer-logo {
         height: 40px;
     }
-
-    nav {
-        width: var(--container-width-sm);
-        padding: 0 10px;
-    }
-
-    .logo img {
-        height: 40px;
-    }
-
-    .first-block {
-        margin-top: 70px;
-        padding: 15px;
-    }
-
-    .first-block h1 {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
-    }
-
-    .first-block p {
-        font-size: 1rem;
-        line-height: 1.4;
-    }
-}
-
-/* Tablet Styles */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-    nav {
-        width: var(--container-width-md);
-    }
-
-    .first-block {
-        margin-top: 75px;
-        padding: 20px;
-    }
 }
 
 /* Print styles for better accessibility */
@@ -208,16 +141,17 @@ body {
     line-height: 1;
 }
 
-.kings {
+/* .kings {
     background-color: #ffd900fd;
     padding: 10px;
     margin: 10px;
     color: rgb(6, 3, 151);
     font-weight: bold;
     font-size: 22px;
-}
+} */
 
 header {
+    position: relative; 
     display: flex;
     align-items: center; /* Center items vertically */
     justify-content: flex-start; /* Align items to the left */
@@ -306,7 +240,8 @@ header h1 {
     width: 40px;
     height: 40px;
     animation: rotate 2s linear infinite; /* Rotate the logo */
-    margin-left: 10px;
+    margin-left: 70px;
+    margin-top: 40px;
 }
 
 .modal-content {
@@ -382,12 +317,24 @@ h2 {
 
 main {
     flex: 1;
-    max-width: 1500px;
-    width: 1100px;
+    max-width: 1000px;
+    width: 900px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.grid-item1, .grid-item2, .grid-item3, .grid-item4 {
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+}
+
+.nav-links{
+    color: rgb(6, 3, 151);
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .text{
@@ -452,142 +399,231 @@ main {
 }
 
 .hero-image-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    position: relative; /* Make the container relative for absolute positioning */
 }
 
+.top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
 .hero-image {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    border-radius: 20px;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 1800px;
+    height: 1000px;
+}
+
+.contact-image {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1800px;
+    height: 1000px;
+}
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.703); /* Dark overlay with 50% opacity */
+    transition: background-color 0.3s;
 }
 
 .text-overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-    width: 90%;
-    max-width: 600px;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust position */
+    color: white; /* Text color */
+    text-align: center; /* Center text */
+    z-index: 2; /* Ensure it is above the overlay */
 }
 
-.text-overlay h1 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    font-family: 'Playfair Display', serif;
+.text-overlay h2 {
+    color: #fff;
+    font-size: 2em; /* Adjust size as needed */
+    margin: 0; /* Remove default margin */
 }
 
 .text-overlay p {
-    font-size: 1.2em;
-    margin-bottom: 25px;
+    font-size: 1.2em; /* Adjust size as needed */
 }
 
-.book-now-btn {
-    display: inline-block;
-    padding: 12px 30px;
-    background: #FFD700;
-    color: #000;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background 0.3s ease;
+.room-image {
+    width: 100%; /* Adjust as needed */
+    height: auto;
+    margin: 10px 0;
+    border-radius: 5px; /* Optional: for rounded corners */
 }
 
-.book-now-btn:hover {
-    background: #FFC700;
+footer {
+    color: #000000;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    margin-top: auto;
 }
 
-.booking-form {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.9);
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-image {
+    width: 100%; /* Responsive image */
+    height: auto;
+}
+
+@keyframes reveal {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+.text-animation {
+    display: inline-block;
+    font-size: 70px;
+    overflow: hidden; /* Ensures the text is hidden until revealed */
+    white-space: nowrap; /* Prevents text wrapping */
+    color: blue; /* Set text color to blue */
+    animation: reveal 4s steps(30) infinite; /* Infinite animation */
+}
+
+input[type="date"] {
+    width: 100%; /* Full width */
+    padding: 10px; /* Add padding */
+    border: 2px solid rgb(6, 3, 151); /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    color: rgb(0, 0, 0); /* Text color */
+    background-color: white; /* Light background */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
+
+input[type="date"]:focus {
+    outline: none; /* Remove default outline */
+    border-color: rgb(251, 255, 0); /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(251, 255, 0, 0.5); /* Add shadow on focus */
+}
+
+.search-container {
     display: flex;
-    gap: 15px;
-    justify-content: center;
+    gap: 10px;
+    background: none; /* No background */
+    box-shadow: none; /* No shadow */
+    padding: 0; /* Remove padding */
+    border-radius: 0; /* No rounded corners */
+}
+
+.search-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.search-item label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.search-item input,
+.search-item select,
+#search-button {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.guest-selection {
+    display: flex;
     align-items: center;
-    backdrop-filter: blur(5px);
+    gap: 10px;
 }
 
-.booking-form input,
-.booking-form select {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-.search-room-btn {
-    padding: 12px 25px;
-    background: #000;
+#search-button {
+    background: #2c2c2c;
     color: white;
     border: none;
-    border-radius: 5px;
+    padding: 15px 25px;
+    border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
-/* Mobile Styles */
-@media screen and (max-width: 600px) {
-    .text-overlay {
-        top: 40%;
-    }
-
-    .text-overlay h1 {
-        font-size: 1.8em;
-        margin-bottom: 10px;
-    }
-
-    .text-overlay p {
-        font-size: 1em;
-        margin-bottom: 20px;
-    }
-
-    .booking-form {
-        position: relative;
-        flex-direction: column;
-        padding: 15px;
-        gap: 10px;
-    }
-
-    .booking-form input,
-    .booking-form select {
-        width: 100%;
-    }
-
-    .search-room-btn {
-        width: 100%;
-    }
-
-    .hero-image-container {
-        height: auto;
-        min-height: 80vh;
-    }
+#search-button:hover {
+    background: #404040;
 }
 
-/* Tablet Styles */
-@media screen and (min-width: 601px) and (max-width: 1024px) {
-    .booking-form {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
+label {
+    color: #666;
+    font-size: 0.9em;
+    display: block;
+    margin-bottom: 5px;
+}
 
-    .booking-form input,
-    .booking-form select {
-        flex: 1;
-        min-width: 150px;
-    }
+input[type="date"], select {
+    border: none;
+    font-size: 1em;
+    color: #2c2c2c;
+    width: 150px;
+    padding: 5px 0;
+    background-color: white;
+}
 
-    .search-room-btn {
-        width: 100%;
-        margin-top: 10px;
-    }
+.guest-selection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.guest-selection input {
+    width: 50px;
+    border: none;
+    text-align: center;
+    background-color: white;
+}
+
+.guest-selection span {
+    color: #2c2c2c;
+    font-size: 0.9em;
 }
 
 /* Responsive design */
@@ -1131,7 +1167,7 @@ main {
 /* Footer Styles */
 footer {
     background: #fff;
-    padding: 30px 0;
+    padding: 20px 0;
     text-align: center;
     border-top: 1px solid #eee;
 }
@@ -1140,11 +1176,11 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .footer-logo {
-    height: 60px;
+    height: 40px;
     width: auto;
     margin-bottom: 10px;
 }
