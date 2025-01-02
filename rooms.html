@@ -3,31 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms - Lavimac Royal Hotel</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Rooms - Kings Towers Hotel</title>
 </head>
 <body>
     <header>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="rooms.html">Rooms</a>
-            <a href="booking.html">Book Now</a>
-            <a href="contact.html">Contact</a>
-            <a href="https://wa.me/233208888123" class="whatsapp-button" target="_blank"><i class="fab fa-whatsapp"></i><span class="tooltip">Chat With Us on WhatsApp</span></a>
-        </nav>
+        <img src="img/logo.jpg" class="logo" alt="Logo">
+        <h1 class="kings">Lavimac Royal Hotel</h1>
     </header>
-    <main>
-        <h2>Our Rooms</h2>
-        <p>Explore our luxurious rooms designed for your comfort.</p>
-        <img src="img/room1.jpg" alt="Room 1" class="room-image">
-        <img src="img/room2.jpg" alt="Room 2" class="room-image">
-        <img src="img/room3.jpg" alt="Room 3" class="room-image">
-        <img src="img/room4.jpg" alt="Room 4" class="room-image">
-        <img src="img/room5.jpg" alt="Room 5" class="room-image">
+    <div class="header-div">
+        <nav>
+            <a href="index.html">HOME</a>
+            <a href="#" class="nav-link">ROOMS</a>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    
+                    <h2>Room Title</h2>
+                    <p>Room description goes here. It can include details about the amenities and features.</p>
+                </div>
+            </div>
+            <a href="booking.html">BOOK NOW</a>
+            <a href="contact.html">CONTACT US</a>
+        </nav>
+    </div>
+
+    <main class="rooms-container">
+        <div class="room-grid">
+            <!-- Luxury Suite -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="img/single.jpg" alt="Luxury Suite">
+                    <div class="price">From GHc 220 <span>/night</span></div>
+                </div>
+                <div class="room-details">
+                    <h2>Standard Single</h2>
+                    <div class="amenities">
+                        <div class="bed-info">
+                            <img src="img/bed.png" alt="Bed">
+                            <span>1 Single Bed</span>
+                        </div>
+                        <div class="guest-info">
+                            <img src="img/guest.png" alt="Guests">
+                            <span>2 Guests</span>
+                        </div>
+                    </div>
+                    <a href="#" class="book-now">BOOK NOW</a>
+                </div>
+            </div>
+
+            <!-- Standard Deluxe -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="img/standard deluxe.jpg" alt="Standard Deluxe">
+                    <div class="price">From GHc 250 <span>/night</span></div>
+                </div>
+                <div class="room-details">
+                    <h2>Standard Deluxe</h2>
+                    <div class="amenities">
+                        <div class="bed-info">
+                            <img src="img/bed.png" alt="Bed">
+                            <span>1 Queen Size Bed</span>
+                        </div>
+                        <div class="guest-info">
+                            <img src="img/guest.png" alt="Guests">
+                            <span>2 Guests</span>
+                        </div>
+                    </div>
+                    <a href="#" class="book-now">BOOK NOW</a>
+                </div>
+            </div>
+
+            <!-- The Penthouse -->
+            <div class="room-card">
+                <div class="room-image">
+                    <img src="img/pent.jpg" alt="The Penthouse">
+                    <div class="price">
+                        <span class="discount">16% OFF</span>
+                        From <span class="original-price">GHc300</span> GHc250<span>/night</span>
+                    </div>
+                </div>
+                <div class="room-details">
+                    <h2>The Penthouse</h2>
+                    <div class="amenities">
+                        <div class="bed-info">
+                            <img src="img/bed.png" alt="Bed">
+                            <span>1 King Size Bed</span>
+                        </div>
+                        <div class="guest-info">
+                            <img src="img/guest.png" alt="Guests">
+                            <span>2 Guests</span>
+                        </div>
+                    </div>
+                    <a href="#" class="book-now">BOOK NOW</a>
+                </div>
+            </div>
+        </div>
     </main>
     <footer>
-        <p>&copy; 2024 Kings Towers Hotel</p>
+        <div class="footer-content">
+            <img src="img/logo.jpg" alt="Lavimac Royal Hotel Logo" class="footer-logo">
+            <p>&copy; 2024 Lavimac Royal Hotel | Powered by Ecstasy Geospatial Services</p>
+        </div>
     </footer>
 </body>
 </html>

@@ -3,43 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lavimac Royal Hotel, a luxurious stay near KNUST.">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <title>Kings Towers Hotel</title>
+    <title>Lavimac Royal Hotel - Lavimac Royal Hotel</title>
 </head>
 <body>
     <header>
-        <h1 class="kings">Kings Towers Hotel</h1>
+        <img src="img/logo.jpg" class="logo" alt="Logo">
+        <h1 class="kings">Lavimac Royal Hotel</h1>
     </header>
     <div class="header-div">
         <nav>
             <a href="index.html">HOME</a>
-            <a href="rooms.html">ROOMS</a>
+            <a href="#" class="nav-link">ROOMS</a>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    
+                    <h2>Room Title</h2>
+                    <p>Room description goes here. It can include details about the amenities and features.</p>
+                </div>
+            </div>
             <a href="booking.html">BOOK NOW</a>
             <a href="contact.html">CONTACT</a>
         </nav>
-
     </div>
     <div class="hero-image-container">
         <img src="img/1.jpg" alt="Kings Towers Hotel" class="hero-image">
-        <div class="overlay"></div>
         <div class="text-overlay">
-            <h2>Welcome to Kings Towers Hotel</h2>
-            <p>Experience luxury and comfort.</p>
+            <h2>Welcome to <span class="text-animation">Lavimac Royal Hotel</span></h2>
+            <p class="text">Experience the royalty side of life with Us.</p>
             <a href="https://www.booking.com" class="button">Book Now</a>
         </div>
-        <div class="containers">
+        <main class="about-us">   
+            <div class="grid-container">
+                <div class="grid-item1">
+                    <label for="check-in-date">Check In</label>
+                    <input class="check-in-date" type="date" id="check-in-date" value="2025-01-01">
+                </div>
+                <div class="grid-item2">
+                    <label for="check-out-date">Check Out</label>
+                    <input class="check-out-date" type="date" id="check-out-date" value="2025-01-02">
+                </div>
+                <div class="grid-item3">
+                    <label for="room-select">Room</label>
+                    <select id="room-select">
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="grid-item4">
+                    <label for="adults-count">Adults</label>
+                    <div class="guest-selection">
+                        <input type="number" id="adults-count" value="2" min="1" max="10">
+                        <label for="children-count">Children</label>
+                        <input type="number" id="children-count" value="0" min="0" max="10">
+                    </div>
+                </div>
+                <div class="grid-item5">
+                    <a href="rooms.html"><button id="search-button">Search Room</button></a>
+                </div>
+            </div>
+        </main>
+    </div>
 
+    <div class="facilities-section">
+        <h2 class="facilities-title">Wide Range of Facilities</h2>
+        <p class="facilities-subtitle">Choose from a wide range of exclusive rooms, hotels, and apartments.</p>
+        
+        <div class="facilities-grid">
+            <!-- Resort -->
+            <div class="facility-item" onclick="return false;">
+                <img src="img/barr.png" alt="Resort" class="facility-icon">
+                <h3>Bed and Breakfast</h3>
+                <p>Start your day with our complimentary breakfast.</p>
+            </div>
+
+            <!-- Live Band -->
+            <div class="facility-item" onclick="return false;">
+                <img src="img/band.png" alt="Live Band" class="facility-icon">
+                <h3>Live Band</h3>
+                <p>Enjoy live music performances every weekend at our restaurant, featuring talented local artists.</p>
+            </div>
+
+            <!-- Reservation -->
+            <div class="facility-item" onclick="return false;">
+                <img src="img/reservation.png" alt="Reservation" class="facility-icon">
+                <h3>Reservation</h3>
+                <p>Easy online and phone booking available 24/7. Special rates for advance reservations.</p>
+            </div>
+
+            <!-- DSTV -->
+            <div class="facility-item" onclick="return false;">
+                <img src="img/casino.png" alt="DSTV" class="facility-icon">
+                <h3>DSTV</h3>
+                <p>Premium DSTV channels available in all rooms, featuring sports, movies, and entertainment.</p>
+            </div>
+
+            <!-- Room Service -->
+            <div class="facility-item" onclick="return false;">
+                <img src="img/room-service.png" alt="Room Service" class="facility-icon">
+                <h3>Room Service</h3>
+                <p>24-hour room service available with a diverse menu of local and international dishes.</p>
+            </div>
+
+            <!-- Free Wifi -->
+            <div class="facility-item" onclick="return false;">
+                <img src="img/wifi.png" alt="Free Wifi" class="facility-icon">
+                <h3>Free Wifi</h3>
+                <p>High-speed internet access available throughout the hotel for all our guests.</p>
+            </div>
         </div>
     </div>
-    <main>   
-        <h2>About Us</h2>
-        <p>Kings Towers Hotel is a 5-star hotel located in the heart of Accra, Ghana. Our hotel is a perfect blend of elegance, comfort and style. We offer luxurious rooms, suites and apartments, all tastefully decorated and fully equipped with modern amenities. Our friendly and courteous staff will make sure that your stay with us is a memorable one.</p>
-        
-        <a href="https://wa.me/233208888123" class="whatsapp-button" target="_blank"><i class="fab fa-whatsapp"></i><span class="tooltip">Chat With Us on WhatsApp</span></a>
-    </main>
+
+    <div class="containers">
+    </div>
+    <a href="https://wa.me/233208888123" class="whatsapp-button" target="_blank"><i class="fab fa-whatsapp"></i><span class="tooltip">Chat With Us on WhatsApp</span></a>
     <footer>
-        <p>&copy; 2024 Kings Towers Hotel</p>
+        <div class="footer-content">
+            <img src="img/logo.jpg" alt="Lavimac Royal Hotel Logo" class="footer-logo">
+            <p>&copy; 2024 Lavimac Royal Hotel | Powered by Ecstasy Geospatial Services</p>
+        </div>
     </footer>
+    <script>
+        const modal = document.getElementById('myModal');
+        const close = document.querySelector('.close');
+
+        document.querySelector('.nav-link').addEventListener('mouseover', function() {
+            modal.style.display = 'block';
+        });
+
+        document.querySelector('.nav-link').addEventListener('mouseout', function() {
+            modal.style.display = 'none';
+        });
+
+        close.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
