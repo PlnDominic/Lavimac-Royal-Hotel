@@ -1,3 +1,131 @@
+/* Base responsive styles */
+:root {
+    --container-width-lg: 80%;
+    --container-width-md: 90%;
+    --container-width-sm: 94%;
+}
+
+/* Container responsiveness */
+.container {
+    width: var(--container-width-lg);
+    margin: 0 auto;
+}
+
+/* Navigation responsiveness */
+.nav-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Tablet Media Query */
+@media screen and (max-width: 1024px) {
+    .container {
+        width: var(--container-width-md);
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .room-card {
+        width: calc(50% - 20px);
+    }
+
+    .contact-info-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .form-row input {
+        width: 100%;
+    }
+
+    .footer-content {
+        padding: 0 20px;
+    }
+}
+
+/* Mobile Media Query */
+@media screen and (max-width: 600px) {
+    .container {
+        width: var(--container-width-sm);
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .room-card {
+        width: 100%;
+    }
+
+    .contact-info-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-info-card {
+        padding: 20px;
+    }
+
+    .map-section iframe {
+        height: 300px;
+    }
+
+    .social-links {
+        gap: 15px;
+    }
+
+    .footer-logo {
+        height: 40px;
+    }
+}
+
+/* Print styles for better accessibility */
+@media print {
+    .nav-links,
+    .menu-btn,
+    .social-links,
+    .whatsapp-button {
+        display: none;
+    }
+}
+
 html, body {
     height: 100%;
 }
