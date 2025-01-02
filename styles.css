@@ -244,6 +244,14 @@ header h1 {
     margin-top: 40px;
 }
 
+.logo1{
+    width: 40px;
+    height: 40px;
+    animation: rotate 2s linear infinite; /* Rotate the logo */
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .modal-content {
     background-color: #ffffff;
     padding: 20px;
