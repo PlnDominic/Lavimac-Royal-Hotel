@@ -416,9 +416,8 @@ main {
     align-items: center;
     padding-top: 30px;
     border-radius: 20px;
-    width: 100%;
-    max-width: 1800px;
-    height: 1000px;
+    width: 95%;
+    height: 850px;
 }
 
 .contact-image {
@@ -445,8 +444,14 @@ main {
 
 .text-overlay {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
+    bottom: 200px; /* Position it at the bottom */
+    left: 50%;
+    width: 40%; /* Adjust width as needed */
+    margin: 0; /* Remove margin to avoid shifting */
+    padding: 15px;
+    border-radius: 8px;
+    
+    color: rgb(0, 0, 0); /* Text color */
     transform: translate(-50%, -50%); /* Adjust position */
     color: white; /* Text color */
     text-align: center; /* Center text */
@@ -460,7 +465,7 @@ main {
 }
 
 .text-overlay p {
-    font-size: 1.2em; /* Adjust size as needed */
+    font-size: 1em; /* Adjust size as needed */
 }
 
 .room-image {
@@ -515,14 +520,7 @@ footer {
     }
 }
 
-.text-animation {
-    display: inline-block;
-    font-size: 70px;
-    overflow: hidden; /* Ensures the text is hidden until revealed */
-    white-space: nowrap; /* Prevents text wrapping */
-    color: blue; /* Set text color to blue */
-    animation: reveal 4s steps(30) infinite; /* Infinite animation */
-}
+
 
 input[type="date"] {
     width: 100%; /* Full width */
