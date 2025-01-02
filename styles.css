@@ -452,210 +452,142 @@ main {
 }
 
 .hero-image-container {
-    position: relative; /* Make the container relative for absolute positioning */
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .hero-image {
-    position: relative;
-    display: block;
-    margin: 0 auto;
-    justify-content: center;
-    align-items: center;
     width: 100%;
-    max-width: 2000px;
-    height: 1200px;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.703); /* Dark overlay with 50% opacity */
-    transition: background-color 0.3s;
+    height: 100%;
+    object-fit: cover;
 }
 
 .text-overlay {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust position */
-    color: white; /* Text color */
-    text-align: center; /* Center text */
-    z-index: 2; /* Ensure it is above the overlay */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    width: 90%;
+    max-width: 600px;
 }
 
-.text-overlay h2 {
-    color: #fff;
-    font-size: 2em; /* Adjust size as needed */
-    margin: 0; /* Remove default margin */
+.text-overlay h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    font-family: 'Playfair Display', serif;
 }
 
 .text-overlay p {
-    font-size: 1.2em; /* Adjust size as needed */
+    font-size: 1.2em;
+    margin-bottom: 25px;
 }
 
-.room-image {
-    width: 100%; /* Adjust as needed */
-    height: auto;
-    margin: 10px 0;
-    border-radius: 5px; /* Optional: for rounded corners */
-}
-
-footer {
-    color: #000000;
-    font-size: 12px;
-    text-align: center;
-    padding: 10px 0;
-    position: relative;
-    margin-top: auto;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-image {
-    width: 100%; /* Responsive image */
-    height: auto;
-}
-
-@keyframes reveal {
-    from {
-        width: 0;
-    }
-    to {
-        width: 100%;
-    }
-}
-
-.text-animation {
+.book-now-btn {
     display: inline-block;
-    overflow: hidden; /* Ensures the text is hidden until revealed */
-    white-space: nowrap; /* Prevents text wrapping */
-    color: blue; /* Set text color to blue */
-    animation: reveal 4s steps(30) infinite; /* Infinite animation */
-}
-
-input[type="date"] {
-    width: 100%; /* Full width */
-    padding: 10px; /* Add padding */
-    border: 2px solid rgb(6, 3, 151); /* Border color */
-    border-radius: 5px; /* Rounded corners */
-    font-size: 16px; /* Font size */
-    color: rgb(0, 0, 0); /* Text color */
-    background-color: white; /* Light background */
-    transition: border-color 0.3s; /* Smooth transition for border color */
-}
-
-input[type="date"]:focus {
-    outline: none; /* Remove default outline */
-    border-color: rgb(251, 255, 0); /* Change border color on focus */
-    box-shadow: 0 0 5px rgba(251, 255, 0, 0.5); /* Add shadow on focus */
-}
-
-.search-container {
-    display: flex;
-    gap: 10px;
-    background: none; /* No background */
-    box-shadow: none; /* No shadow */
-    padding: 0; /* Remove padding */
-    border-radius: 0; /* No rounded corners */
-}
-
-.search-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.search-item label {
-    font-size: 14px;
+    padding: 12px 30px;
+    background: #FFD700;
+    color: #000;
+    text-decoration: none;
+    border-radius: 5px;
     font-weight: bold;
-    margin-bottom: 5px;
+    transition: background 0.3s ease;
 }
 
-.search-item input,
-.search-item select,
-#search-button {
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.book-now-btn:hover {
+    background: #FFC700;
 }
 
-.guest-selection {
+.booking-form {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
     display: flex;
+    gap: 15px;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
+    backdrop-filter: blur(5px);
 }
 
-#search-button {
-    background: #2c2c2c;
+.booking-form input,
+.booking-form select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.search-room-btn {
+    padding: 12px 25px;
+    background: #000;
     color: white;
     border: none;
-    padding: 15px 25px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    text-transform: uppercase;
 }
 
-#search-button:hover {
-    background: #404040;
+/* Mobile Styles */
+@media screen and (max-width: 600px) {
+    .text-overlay {
+        top: 40%;
+    }
+
+    .text-overlay h1 {
+        font-size: 1.8em;
+        margin-bottom: 10px;
+    }
+
+    .text-overlay p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .booking-form {
+        position: relative;
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .booking-form input,
+    .booking-form select {
+        width: 100%;
+    }
+
+    .search-room-btn {
+        width: 100%;
+    }
+
+    .hero-image-container {
+        height: auto;
+        min-height: 80vh;
+    }
 }
 
-label {
-    color: #666;
-    font-size: 0.9em;
-    display: block;
-    margin-bottom: 5px;
-}
+/* Tablet Styles */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    .booking-form {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 
-input[type="date"], select {
-    border: none;
-    font-size: 1em;
-    color: #2c2c2c;
-    width: 150px;
-    padding: 5px 0;
-    background-color: white;
-}
+    .booking-form input,
+    .booking-form select {
+        flex: 1;
+        min-width: 150px;
+    }
 
-.guest-selection {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.guest-selection input {
-    width: 50px;
-    border: none;
-    text-align: center;
-    background-color: white;
-}
-
-.guest-selection span {
-    color: #2c2c2c;
-    font-size: 0.9em;
+    .search-room-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
 }
 
 /* Responsive design */

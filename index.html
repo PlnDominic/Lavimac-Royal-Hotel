@@ -32,43 +32,31 @@
     </div>
 
     <div class="hero-image-container">
-        <img src="img/1.jpg" alt="Kings Towers Hotel" class="hero-image">
+        <img src="img/1.jpg" alt="Lavimac Royal Hotel" class="hero-image">
         <div class="text-overlay">
-            <h2>Welcome to <span class="text-animation">Lavimac Royal Hotel</span></h2>
-            <p class="text">Experience the royalty side of life with Us.</p>
-            <a href="https://www.booking.com" class="button">Book Now</a>
+            <h1>Welcome to Lavimac Royal Hotel</h1>
+            <p>Experience the royalty side of life with Us.</p>
+            <a href="booking.html" class="book-now-btn">Book Now</a>
         </div>
-        <main class="about-us">   
-            <div class="grid-container">
-                <div class="grid-item1">
-                    <label for="check-in-date">Check In</label>
-                    <input class="check-in-date" type="date" id="check-in-date" value="2025-01-01">
-                </div>
-                <div class="grid-item2">
-                    <label for="check-out-date">Check Out</label>
-                    <input class="check-out-date" type="date" id="check-out-date" value="2025-01-02">
-                </div>
-                <div class="grid-item3">
-                    <label for="room-select">Room</label>
-                    <select id="room-select">
-                        <option value="1" selected>1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-                <div class="grid-item4">
-                    <label for="adults-count">Adults</label>
-                    <div class="guest-selection">
-                        <input type="number" id="adults-count" value="2" min="1" max="10">
-                        <label for="children-count">Children</label>
-                        <input type="number" id="children-count" value="0" min="0" max="10">
-                    </div>
-                </div>
-                <div class="grid-item5">
-                    <a href="rooms.html"><button id="search-button">Search Room</button></a>
-                </div>
-            </div>
-        </main>
+        <form class="booking-form" action="booking.html" method="get">
+            <input type="date" id="check-in" name="check-in" required>
+            <select name="room" id="room" required>
+                <option value="1">1 Room</option>
+                <option value="2">2 Rooms</option>
+                <option value="3">3 Rooms</option>
+            </select>
+            <select name="adults" id="adults" required>
+                <option value="1">1 Adult</option>
+                <option value="2">2 Adults</option>
+                <option value="3">3 Adults</option>
+            </select>
+            <select name="children" id="children">
+                <option value="0">0 Children</option>
+                <option value="1">1 Child</option>
+                <option value="2">2 Children</option>
+            </select>
+            <button type="submit" class="search-room-btn">SEARCH ROOM</button>
+        </form>
     </div>
 
     <div class="facilities-section">
