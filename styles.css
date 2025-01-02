@@ -5,6 +5,37 @@
     --container-width-sm: 94%;
 }
 
+/* Header and Navigation Styles */
+.header {
+    background: white;
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav {
+    width: var(--container-width-lg);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+/* First Block Styles */
+.first-block {
+    margin-top: 80px; /* Add space for fixed header */
+    padding: 20px;
+    text-align: center;
+}
+
 /* Container responsiveness */
 .container {
     width: var(--container-width-lg);
@@ -113,6 +144,42 @@
 
     .footer-logo {
         height: 40px;
+    }
+
+    nav {
+        width: var(--container-width-sm);
+        padding: 0 10px;
+    }
+
+    .logo img {
+        height: 40px;
+    }
+
+    .first-block {
+        margin-top: 70px;
+        padding: 15px;
+    }
+
+    .first-block h1 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+
+    .first-block p {
+        font-size: 1rem;
+        line-height: 1.4;
+    }
+}
+
+/* Tablet Styles */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+    nav {
+        width: var(--container-width-md);
+    }
+
+    .first-block {
+        margin-top: 75px;
+        padding: 20px;
     }
 }
 
