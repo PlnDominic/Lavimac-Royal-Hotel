@@ -33,25 +33,33 @@ function sendEmail(event) {
     window.location.href = mailtoLink;
 }
 
+// Mobile Menu Toggle
+const menuBtn = document.querySelector('.menu-btn');
+const navLinks = document.querySelector('.nav-links');
+
+if (menuBtn) {
+    menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        menuBtn.innerHTML = navLinks.classList.contains('active') ? '✕' : '☰';
+    });
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+    if (navLinks && navLinks.classList.contains('active') && 
+        !navLinks.contains(e.target) && 
+        !menuBtn.contains(e.target)) {
+        navLinks.classList.remove('active');
+        menuBtn.innerHTML = '☰';
+    }
+});
+
 // Mobile Menu Functionality
 document.addEventListener('DOMContentLoaded', function() {
     const menuBtn = document.querySelector('.menu-btn');
     const navLinks = document.querySelector('.nav-links');
     
     if (menuBtn && navLinks) {
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuBtn.innerHTML = navLinks.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!navLinks.contains(e.target) && !menuBtn.contains(e.target)) {
-                navLinks.classList.remove('active');
-                menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-
         // Close menu when window is resized to desktop size
         window.addEventListener('resize', () => {
             if (window.innerWidth > 600) {
