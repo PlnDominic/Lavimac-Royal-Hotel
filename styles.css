@@ -116,6 +116,63 @@
     }
 }
 
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 0 10px;
+    }
+
+    header {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .logo {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    .grid-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .grid-item1, .grid-item2, .grid-item3, .grid-item4 {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .text-overlay {
+        width: 90%;
+        bottom: 100px;
+        font-size: 0.9rem;
+    }
+
+    .about-us {
+        width: 95%;
+        bottom: 20px;
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .text-overlay {
+        bottom: 80px;
+        font-size: 0.8rem;
+    }
+
+    .about-us {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+}
+
 /* Print styles for better accessibility */
 @media print {
     .nav-links,
