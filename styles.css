@@ -134,26 +134,60 @@
     }
 
     .grid-container {
-        flex-direction: column;
-        gap: 10px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        padding-bottom: 10px;
+    }
+
+    .grid-container::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .grid-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    .grid-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .grid-container {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 20px;
+        padding: 0 15px;
     }
 
     .grid-item1, .grid-item2, .grid-item3, .grid-item4 {
-        width: 100%;
-        margin: 5px 0;
-    }
-
-    .text-overlay {
-        width: 90%;
-        bottom: 100px;
-        font-size: 0.9rem;
+        flex: 0 0 auto;
+        min-width: 250px;
+        background: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: none;
     }
 
     .about-us {
-        width: 95%;
-        bottom: 20px;
-        font-size: 0.9rem;
-        padding: 10px;
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: 20px;
+        width: auto;
+        margin: 20px 10px;
+    }
+
+    .text-overlay {
+        bottom: 150px;
+    }
+
+    .hero-image-container {
+        margin-bottom: 60px;
     }
 }
 
