@@ -1083,8 +1083,8 @@ input[type="date"], select {
 /* Contact Page Styles */
 .contact-hero {
     position: relative;
-    height: 400px;
     width: 100%;
+    height: 400px;
     overflow: hidden;
 }
 
@@ -1092,47 +1092,45 @@ input[type="date"], select {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
 }
 
 .contact-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
     padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
 }
 
 .contact-overlay h1 {
-    font-size: 3em;
-    margin-bottom: 15px;
-    font-family: 'Playfair Display', serif;
+    font-size: 2.5em;
+    margin-bottom: 10px;
 }
 
 .contact-overlay p {
     font-size: 1.2em;
-    max-width: 600px;
-    line-height: 1.6;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
     .contact-hero {
         height: 300px;
     }
-    
-    .contact-overlay h1 {
-        font-size: 2.2em;
+
+    .contact-overlay {
+        width: 90%;
+        padding: 15px;
     }
-    
+
+    .contact-overlay h1 {
+        font-size: 2em;
+    }
+
     .contact-overlay p {
         font-size: 1em;
     }
