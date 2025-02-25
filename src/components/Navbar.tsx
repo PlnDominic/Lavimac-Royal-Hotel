@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Menu, Phone, User, X } from "lucide-react";
-import logoImage from "../assets/logo.jpg";
 import { Link } from 'react-router-dom';
+import { Phone, User, Menu, X } from 'lucide-react';
 
 export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,11 +14,6 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0 flex items-center">
-            <img 
-              src={logoImage} 
-              alt="Lavimac Royal Hotel Logo" 
-              className="h-12 w-12 mr-4 object-contain"
-            />
             <h1 className="text-2xl font-serif" style={{ color: 'rgb(0, 0, 115)' }}>
               Lavimac Royal Hotel
             </h1>

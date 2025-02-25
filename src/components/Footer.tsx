@@ -1,14 +1,16 @@
 import React, { FormEvent } from 'react';
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaTripadvisor } from 'react-icons/fa';
 import { MdLocationOn, MdPhone, MdEmail } from 'react-icons/md';
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaTripadvisor } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export function Footer() {
-  const handleNewsletterSubmit = (e: FormEvent) => {
+  const handleNewsletterSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const emailInput = e.currentTarget.elements[0].value;
-    // Logic to send emailInput to lavimacroyalhotels@gmail.com
-    console.log(`Email submitted: ${emailInput}`);
+    const form = e.currentTarget;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    if (emailInput) {
+      console.log(`Email submitted: ${emailInput.value}`);
+    }
   };
 
   return (
@@ -69,6 +71,7 @@ export function Footer() {
             <form onSubmit={handleNewsletterSubmit} className="space-y-2">
               <input
                 type="email"
+                name="email"
                 placeholder="Enter your email"
                 className="w-full px-4 py-2 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-gray-500"
                 required

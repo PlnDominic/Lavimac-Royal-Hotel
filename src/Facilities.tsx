@@ -1,11 +1,6 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Clock, Wifi, Music, Utensils, Users, Tv } from 'lucide-react';
-import wifiImage from './assets/wifi.jpg';
-import dstvImage from './assets/dstv.jpg';
-import restaurantImage from './assets/restaurant.jpg';
-import liveBandImage from './assets/live-band.jpg';
-import conferenceImage from './assets/conference.jpg';
 
 interface FacilityProps {
   title: string;
@@ -37,31 +32,31 @@ const Facilities: React.FC = () => {
       title: "Free Wi-Fi",
       description: "Stay connected with our high-speed internet access available throughout the hotel premises, perfect for both business and leisure travelers.",
       icon: <Wifi className="h-6 w-6" />,
-      image: wifiImage
+      image: './assets/wifi.jpg'
     },
     {
       title: "DSTV",
       description: "Enjoy premium entertainment with our DSTV service, featuring a wide range of international channels and programs in all our rooms.",
       icon: <Tv className="h-6 w-6" />,
-      image: dstvImage
+      image: './assets/dstv.jpg'
     },
     {
       title: "Bar & Restaurant",
       description: "Savor delicious local and international cuisine at our restaurant, complemented by a well-stocked bar offering fine wines and spirits.",
       icon: <Utensils className="h-6 w-6" />,
-      image: restaurantImage
+      image: './assets/restaurant.jpg'
     },
     {
       title: "Live Band",
       description: "Experience vibrant entertainment with our live band performances, creating the perfect atmosphere for your evening enjoyment.",
       icon: <Music className="h-6 w-6" />,
-      image: liveBandImage
+      image: './assets/live-band.jpg'
     },
     {
       title: "Conference Room",
       description: "Host successful meetings and events in our well-equipped conference room, featuring modern amenities and professional services.",
       icon: <Users className="h-6 w-6" />,
-      image: conferenceImage
+      image: './assets/conference.jpg'
     }
   ];
 

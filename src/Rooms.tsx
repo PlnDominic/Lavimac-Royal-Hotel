@@ -3,10 +3,8 @@ import { Navbar } from './components/Navbar';
 import { Link } from 'react-router-dom';
 import roomImage1 from './assets/The_Penthouse_1.jpg';
 import roomImage2 from './assets/standard deluxe 1.jpg';
-import roomImage3 from './assets/standard single 1.jpg';
-import roomImage4 from './assets/The_Penthouse_2.jpg';
-import roomImage5 from './assets/standard deluxe 2.jpg';
-import roomImage6 from './assets/standard single 2.jpg';
+import roomImage3 from './assets/The_Penthouse_2.jpg';
+import roomImage4 from './assets/standard deluxe 2.jpg';
 import { Check } from 'lucide-react';
 
 const RoomCard: React.FC<{
@@ -61,31 +59,17 @@ const Rooms: React.FC = () => {
     },
     {
       image: roomImage3,
-      title: "Standard Single Room",
-      price: "220",
-      alt: "Standard Single Room",
-      amenities: ["Single bed", "Free Wi-Fi", "Work desk", "Daily housekeeping"]
-    },
-    {
-      image: roomImage4,
       title: "Penthouse Room",
       price: "250",
       alt: "Penthouse Room",
       amenities: ["King size bed", "Free Wi-Fi", "Mini bar", "Room service"]
     },
     {
-      image: roomImage5,
+      image: roomImage4,
       title: "Standard Deluxe Room",
       price: "250",
       alt: "Standard Deluxe Room",
       amenities: ["Queen size bed", "Free Wi-Fi", "Mini fridge", "Daily housekeeping"]
-    },
-    {
-      image: roomImage6,
-      title: "Standard Single Room",
-      price: "220",
-      alt: "Standard Single Room",
-      amenities: ["Single bed", "Free Wi-Fi", "Work desk", "Daily housekeeping"]
     }
   ];
 

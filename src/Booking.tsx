@@ -1,162 +1,194 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, User, Printer, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar, User, Printer, Check, LucideProps } from 'lucide-react';
 import roomImage1 from './assets/standard single 1.jpg';
 import roomImage2 from './assets/standard single 2.jpg';
 import roomImage3 from './assets/standard deluxe 1.jpg';
 import roomImage4 from './assets/standard deluxe 2.jpg';
-import roomImage5 from './assets/The_Penthouse_1.jpg';
-import roomImage6 from './assets/The_Penthouse_2.jpg';
 
 // Custom CediSign icon component
-const CediSign = ({ size = 24, className = "" }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <path d="M12 3v18" />
-    <path d="M17 5H9.5a4.5 4.5 0 0 0 0 9h5a4.5 4.5 0 0 1 0 9H6" />
-  </svg>
-);
+const CediSign = React.forwardRef<SVGSVGElement, LucideProps>((props, ref) => {
+  const { size = 24, className = "", ...rest } = props;
+  return (
+    <svg
+      ref={ref}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      {...rest}
+    >
+      <path d="M4 10h12" />
+      <path d="M4 14h9" />
+      <path d="M4 18h6" />
+    </svg>
+  );
+});
+
+CediSign.displayName = 'CediSign';
+
+interface BookingStep {
+  number: number;
+  title: string;
+  icon: React.ComponentType<LucideProps>;
+}
+
+const steps: BookingStep[] = [
+  { number: 1, title: 'Select Date', icon: Calendar },
+  { number: 2, title: 'Select Room', icon: User },
+  { number: 3, title: 'Payment', icon: CediSign },
+  { number: 4, title: 'Complete', icon: Check },
+];
+
+// Date utility functions
+const isDateInPast = (day: number, month: number, year: number): boolean => {
+  const today = new Date();
+  const date = new Date(year, month, day);
+  return date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+};
+
+const generateCalendarDays = (year: number, month: number): (number | null)[] => {
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const days: (number | null)[] = [];
+  
+  // Add empty cells for days before the first day of the month
+  for (let i = 0; i < firstDay.getDay(); i++) {
+    days.push(null);
+  }
+  
+  // Add the days of the month
+  for (let i = 1; i <= lastDay.getDate(); i++) {
+    days.push(i);
+  }
+  
+  return days;
+};
+
+// Room Types
+const roomTypes = [
+  {
+    type: 'Standard Single Room',
+    images: [roomImage1, roomImage2],
+    price: 220.00,
+    currency: '₵'
+  },
+  {
+    type: 'Standard Deluxe Room',
+    images: [roomImage3, roomImage4],
+    price: 250.00,
+    currency: '₵'
+  },
+  {
+    type: 'Penthouse Room',
+    images: [], // Removed unused images
+    price: 250.00,
+    currency: '₵'
+  }
+];
+
+// Feedback Message Component
+const FeedbackMessage: React.FC<{ feedback: { type: 'success' | 'error'; message: string } | null }> = ({ feedback }) => {
+  if (!feedback) return null;
+  
+  return (
+    <div className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
+      feedback.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    } text-white max-w-md z-50 animate-fade-in`}>
+      <p className="flex items-center">
+        {feedback.type === 'success' ? '✓' : '⚠'} {feedback.message}
+      </p>
+    </div>
+  );
+};
+
+// Confirmation Modal Component
+const ConfirmationModal: React.FC<{
+  showConfirmModal: boolean;
+  checkInDate: string | null;
+  checkOutDate: string | null;
+  selectedRoom: { type: string; currency: string } | null;
+  calculateTotalPrice: () => number;
+  setShowConfirmModal: (show: boolean) => void;
+  handleCompleteBooking: () => void;
+}> = ({
+  showConfirmModal,
+  checkInDate,
+  checkOutDate,
+  selectedRoom,
+  calculateTotalPrice,
+  setShowConfirmModal,
+  handleCompleteBooking
+}) => {
+  if (!showConfirmModal) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+        <h3 className="text-xl font-bold mb-4">Confirm Booking</h3>
+        <p className="mb-4">Please confirm your booking details:</p>
+        <div className="space-y-2 mb-6">
+          <p><strong>Check-in:</strong> {checkInDate && new Date(checkInDate).toLocaleDateString()}</p>
+          <p><strong>Check-out:</strong> {checkOutDate && new Date(checkOutDate).toLocaleDateString()}</p>
+          <p><strong>Room:</strong> {selectedRoom?.type}</p>
+          <p><strong>Total:</strong> {selectedRoom?.currency} {calculateTotalPrice().toFixed(2)}</p>
+        </div>
+        <div className="flex justify-end space-x-4">
+          <button
+            onClick={() => setShowConfirmModal(false)}
+            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => {
+              setShowConfirmModal(false);
+              handleCompleteBooking();
+            }}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          >
+            Confirm Booking
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Booking: React.FC = () => {
+  // State declarations
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [currentMonth, setCurrentMonth] = useState(new Date()); // Set to current date
+  const [currentMonth, setCurrentMonth] = useState(new Date());
   const [checkInDate, setCheckInDate] = useState<string | null>(null);
   const [checkOutDate, setCheckOutDate] = useState<string | null>(null);
-  const [selectedRoomCount, setSelectedRoomCount] = useState<number>(1);
-  const [roomCount, setRoomCount] = useState<number>(1);
-  const [adultCount, setAdultCount] = useState<number>(1);
-  const [showRoomSelection, setShowRoomSelection] = useState(false);
+  const [adultCount, setAdultCount] = useState(1);
+  const [childCount, setChildCount] = useState(0);
+  const [roomCount, setRoomCount] = useState(1);
+  const [selectedRoomCount, setSelectedRoomCount] = useState(1);
   const [activeStep, setActiveStep] = useState(1);
   const [selectedRoom, setSelectedRoom] = useState<null | typeof roomTypes[0]>(null);
+  const [showRoomSelection, setShowRoomSelection] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [showComplete, setShowComplete] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
-  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const steps = [
-    { number: 1, title: 'Select Date', icon: Calendar },
-    { number: 2, title: 'Select Room', icon: User },
-    { number: 3, title: 'Payment', icon: CediSign },
-    { number: 4, title: 'Complete', icon: Check },
-  ];
-
-  const generateCalendarDays = (year: number, month: number) => {
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const days = [];
-    const today = new Date();
+  // Utility functions that depend on state
+  const isDateInRange = (day: number | null, month: number, year: number): boolean => {
+    if (day === null || !checkInDate || !checkOutDate) return false;
     
-    // Add empty cells for days before the first day of the month
-    for (let i = 0; i < firstDay.getDay(); i++) {
-      days.push(null);
-    }
-    
-    // Add the days of the month
-    for (let i = 1; i <= lastDay.getDate(); i++) {
-      const currentDay = new Date(year, month, i);
-      // Allow today's date
-      if (currentDay.toDateString() === today.toDateString()) {
-        days.push(i);
-      } else {
-        days.push(i);
-      }
-    }
-    
-    return days;
+    const start = new Date(checkInDate);
+    const end = new Date(checkOutDate);
+    const current = new Date(year, month, day);
+    return current >= start && current <= end;
   };
-
-  const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const monthDays = generateCalendarDays(currentMonth.getFullYear(), currentMonth.getMonth());
-  const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1);
-
-  const nextMonthDays = generateCalendarDays(nextMonth.getFullYear(), nextMonth.getMonth());
-
-  const nextMonthYear = nextMonth.getFullYear();
-  const nextMonthMonth = nextMonth.getMonth();
-
-  const nextNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1);
-
-  const nextNextMonthDays = generateCalendarDays(nextNextMonth.getFullYear(), nextNextMonth.getMonth());
-
-  const nextNextMonthYear = nextNextMonth.getFullYear();
-  const nextNextMonthMonth = nextNextMonth.getMonth();
-
-  const prevMonth = () => {
-    setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1));
-  };
-
-  const nextNextMonthFunc = () => {
-    setCurrentMonth(new Date(nextNextMonth.getFullYear(), nextNextMonth.getMonth()));
-  };
-
-  const handleDateClick = (day: number, month: number, year: number) => {
-    const date = new Date(year, month, day);
-    const formattedDate = date.toISOString().split('T')[0]; // Format to YYYY-MM-DD
-    if (!checkInDate) {
-        setCheckInDate(formattedDate);
-    } else if (!checkOutDate && formattedDate !== checkInDate) {
-        setCheckOutDate(formattedDate);
-    } else {
-        // Reset the dates if both are selected or the same date is clicked
-        setCheckInDate(formattedDate);
-        setCheckOutDate(null);
-    }
-    // Ensure that no active step change occurs here
-};
-
-  const isDateInRange = (date: number, month: number, year: number) => {
-    if (checkInDate && checkOutDate) {
-      const start = new Date(checkInDate);
-      const end = new Date(checkOutDate);
-      const current = new Date(year, month, date);
-      return current >= start && current <= end;
-    }
-    return false;
-  };
-
-  const today = new Date();
-
-  const isPastDate = (day: number, month: number, year: number) => {
-    const dateToCheck = new Date(year, month, day);
-    return dateToCheck < today; // This allows today to be selectable
-  };
-
-  useEffect(() => {
-    setActiveStep(1);
-  }, []);
-
-  // Add room types data
-  const roomTypes = [
-    {
-      type: 'Standard Single Room',
-      images: [roomImage1, roomImage2],
-      price: 220.00,
-      currency: '₵'
-    },
-    {
-      type: 'Standard Deluxe Room',
-      images: [roomImage3, roomImage4],
-      price: 250.00,
-      currency: '₵'
-    },
-    {
-      type: 'Penthouse Room',
-      images: [roomImage5, roomImage6],
-      price: 250.00,
-      currency: '₵'
-    }
-  ];
 
   const calculateNumberOfNights = () => {
     if (!checkInDate || !checkOutDate) return 0;
@@ -172,10 +204,43 @@ const Booking: React.FC = () => {
     return selectedRoom.price * numberOfNights * selectedRoomCount;
   };
 
+  // Event handlers
+  const handleDateSelection = (day: number) => {
+    if (!isDateInPast(day, currentMonth.getMonth(), currentMonth.getFullYear())) {
+      const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+      setSelectedDate(date.toISOString().split('T')[0]);
+    }
+  };
+
+  const handleSelectChange = (
+    value: string,
+    setter: React.Dispatch<React.SetStateAction<number>>
+  ) => {
+    const parsed = parseInt(value, 10);
+    if (!isNaN(parsed)) {
+      setter(parsed);
+    }
+  };
+
+  const handleDateClick = (day: number | null, month: number, year: number) => {
+    if (day === null) return;
+    
+    const date = new Date(year, month, day);
+    const formattedDate = date.toISOString().split('T')[0];
+    if (!checkInDate) {
+      setCheckInDate(formattedDate);
+    } else if (!checkOutDate && formattedDate !== checkInDate) {
+      setCheckOutDate(formattedDate);
+    } else {
+      setCheckInDate(formattedDate);
+      setCheckOutDate(null);
+    }
+  };
+
   const handleSearch = () => {
     if (checkInDate && checkOutDate) {
       setShowRoomSelection(true);
-      setActiveStep(2); // Move to the next step
+      setActiveStep(2);
     }
   };
 
@@ -194,15 +259,10 @@ const Booking: React.FC = () => {
   };
 
   const handleCompleteBooking = () => {
-    // Hide the payment section
     setShowPayment(false);
-    // Show the complete section
     setShowComplete(true);
-    // Set active step to Complete
     setActiveStep(4);
-    // Send email notification
     sendEmail('lavimacroyalhotels@gmail.com');
-    // Send SMS notifications
     sendSMS(['+233248676262', '+233551390039']);
   };
 
@@ -224,11 +284,11 @@ const Booking: React.FC = () => {
                 <h2 style="color: #2d3748;">Thank you for booking with Lavimac Royal Hotels!</h2>
                 <div style="margin: 20px 0;">
                   <h3 style="color: #4a5568;">Booking Details:</h3>
-                  <p><strong>Check-in:</strong> ${checkInDate && new Date(checkInDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  <p><strong>Check-out:</strong> ${checkOutDate && new Date(checkOutDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                  <p><strong>Room Type:</strong> ${selectedRoom?.type}</p>
+                  <p><strong>Check-in:</strong> ${checkInDate && new Date(checkInDate).toLocaleDateString()}</p>
+                  <p><strong>Check-out:</strong> ${checkOutDate && new Date(checkOutDate).toLocaleDateString()}</p>
+                  <p><strong>Room:</strong> ${selectedRoom?.type}</p>
                   <p><strong>Number of Nights:</strong> ${calculateNumberOfNights()}</p>
-                  <p><strong>Total Amount:</strong> ${selectedRoom?.currency}${calculateTotalPrice().toFixed(2)}</p>
+                  <p><strong>Total Amount:</strong> ${selectedRoom?.currency} ${calculateTotalPrice().toFixed(2)}</p>
                 </div>
                 <div style="background-color: #e2e8f0; padding: 15px; border-radius: 4px; margin-top: 20px;">
                   <p style="margin: 0;"><strong>Need assistance?</strong></p>
@@ -269,7 +329,7 @@ Room: ${selectedRoom?.type}
 Check-in: ${checkInDate && new Date(checkInDate).toLocaleDateString()}
 Check-out: ${checkOutDate && new Date(checkOutDate).toLocaleDateString()}
 Nights: ${calculateNumberOfNights()}
-Total: ${selectedRoom?.currency}${calculateTotalPrice().toFixed(2)}
+Total: ${selectedRoom?.currency} ${calculateTotalPrice().toFixed(2)}
 Guest Contact: [Guest Phone Number]
 Thank you for choosing Lavimac Royal!`
           }),
@@ -322,156 +382,108 @@ Thank you for choosing Lavimac Royal!`
   };
 
   const handleSubmit = async () => {
-    const bookingDetails = {
-      checkInDate,
-      checkOutDate,
-      roomType: selectedRoom?.type,
-      totalAmount: calculateTotalPrice(),
-    };
+    if (!selectedRoom || !checkInDate || !checkOutDate) {
+      setFeedback({ type: 'error', message: 'Please complete all required booking information.' });
+      return;
+    }
 
     try {
-      // Sending email confirmation
-      await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: 'lavimacroyalhotels@gmail.com',
-          subject: 'Booking Confirmation',
-          text: `Your booking details: ${JSON.stringify(bookingDetails)}`,
+      setIsLoading(true);
+      // Send notifications
+      await Promise.all([
+        // Email confirmation
+        fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: 'lavimacroyalhotels@gmail.com',
+            subject: 'New Booking - Lavimac Royal Hotels',
+            text: `New booking details:
+Room: ${selectedRoom.type}
+Check-in: ${new Date(checkInDate).toLocaleDateString()}
+Check-out: ${new Date(checkOutDate).toLocaleDateString()}
+Nights: ${calculateNumberOfNights()}
+Total: ${selectedRoom.currency} ${calculateTotalPrice().toFixed(2)}`,
+          }),
         }),
-      });
-
-      // Sending SMS notifications
-      await fetch('/api/send-sms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: ['+233(0)248676262', '+233(0)551390039'],
-          message: `Your booking details: ${JSON.stringify(bookingDetails)}`,
+        // SMS notifications
+        fetch('/api/send-sms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            to: ['+233248676262', '+233551390039'],
+            message: `New booking at Lavimac Royal:
+Room: ${selectedRoom.type}
+Check-in: ${new Date(checkInDate).toLocaleDateString()}
+Check-out: ${new Date(checkOutDate).toLocaleDateString()}
+Nights: ${calculateNumberOfNights()}
+Total: ${selectedRoom.currency} ${calculateTotalPrice().toFixed(2)}`,
+          }),
         }),
-      });
+      ]);
 
-      alert('Confirmation sent!');
+      setFeedback({ type: 'success', message: 'Booking submitted successfully!' });
+      setShowConfirmModal(true);
     } catch (error) {
-      console.error('Error sending confirmation:', error);
-      alert('Failed to send confirmation.');
+      console.error('Error submitting booking:', error);
+      setFeedback({ type: 'error', message: 'Failed to submit booking. Please try again.' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const renderCompleteSection = () => {
-    if (!showComplete) return null;
-
-    return (
-      <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg border border-gray-300">
-        <h2 className="text-2xl font-bold mb-4 text-center text-gray-800 font-georgia">Booking Complete</h2>
-        <div className="mb-4 p-4 bg-gray-100 rounded-lg">
-          <p className="text-gray-600 flex items-center font-georgia"><Calendar className="mr-2" />Check-in Date: <strong className="text-gray-800 font-georgia">{checkInDate && new Date(checkInDate).toLocaleDateString()}</strong></p>
-          <p className="text-gray-600 flex items-center font-georgia"><Calendar className="mr-2" />Check-out Date: <strong className="text-gray-800 font-georgia">{checkOutDate && new Date(checkOutDate).toLocaleDateString()}</strong></p>
-          <p className="text-gray-600 flex items-center font-georgia"><User className="mr-2" />Room Type: <strong className="text-gray-800 font-georgia">{selectedRoom?.type}</strong></p>
-          <p className="text-gray-600 flex items-center font-georgia"><CediSign className="mr-2" />Total Amount: <strong className="text-gray-800 font-georgia">{selectedRoom?.currency} {calculateTotalPrice().toFixed(2)}</strong></p>
-        </div>
-        <div className="flex justify-center">
-          <button onClick={printReceipt} className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition duration-300">Print Receipt</button>
-        </div>
-      </div>
-    );
-  };
-
-  const FeedbackMessage = () => {
-    if (!feedback) return null;
-    
-    return (
-      <div className={`fixed top-4 right-4 p-4 rounded-lg shadow-lg ${
-        feedback.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-      } text-white max-w-md z-50 animate-fade-in`}>
-        <p className="flex items-center">
-          {feedback.type === 'success' ? '✓' : '⚠'} {feedback.message}
-        </p>
-      </div>
-    );
-  };
-
-  const ConfirmationModal = () => {
-    if (!showConfirmModal) return null;
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
-          <h3 className="text-xl font-bold mb-4">Confirm Booking</h3>
-          <p className="mb-4">Please confirm your booking details:</p>
-          <div className="space-y-2 mb-6">
-            <p><strong>Check-in:</strong> {checkInDate && new Date(checkInDate).toLocaleDateString()}</p>
-            <p><strong>Check-out:</strong> {checkOutDate && new Date(checkOutDate).toLocaleDateString()}</p>
-            <p><strong>Room:</strong> {selectedRoom?.type}</p>
-            <p><strong>Total:</strong> {selectedRoom?.currency} {calculateTotalPrice().toFixed(2)}</p>
-          </div>
-          <div className="flex justify-end space-x-4">
-            <button
-              onClick={() => setShowConfirmModal(false)}
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={() => {
-                setShowConfirmModal(false);
-                handleCompleteBooking();
-              }}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-            >
-              Confirm Booking
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  useEffect(() => {
+    setActiveStep(1);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Add Feedback Message */}
-      <FeedbackMessage />
-      
-      {/* Add Confirmation Modal */}
-      <ConfirmationModal />
+      <FeedbackMessage feedback={feedback} />
+      <ConfirmationModal 
+        showConfirmModal={showConfirmModal}
+        checkInDate={checkInDate}
+        checkOutDate={checkOutDate}
+        selectedRoom={selectedRoom}
+        calculateTotalPrice={calculateTotalPrice}
+        setShowConfirmModal={setShowConfirmModal}
+        handleCompleteBooking={handleCompleteBooking}
+      />
       
       {/* Add loading overlay */}
       {isLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-xl shadow-2xl">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto"></div>
-            <p className="mt-6 text-center text-lg font-semibold text-gray-800">Processing your booking...</p>
-          </div>
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       )}
-      
-      {/* Rest of the component */}
-      {/* Add spacing for fixed navbar */}
-      <div className="h-16"></div>
-      <div className="h-12"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Progress Steps */}
         <div className="max-w-5xl mx-auto bg-black rounded-xl shadow-lg p-6 mb-8">
           <div className="flex justify-between items-center">
-            {steps.map((step, index) => (
-              <div key={step.number} className="flex-1 relative">
-                <div className={`flex flex-col items-center ${index !== steps.length - 1 ? 'after:content-[""] after:absolute after:top-7 after:left-1/2 after:w-full after:h-0.5 after:bg-gray-700' : ''}`}>
-                  <div className={`w-14 h-14 rounded-full flex items-center justify-center ${
-                    activeStep === step.number
-                      ? 'bg-blue-500 text-white ring-4 ring-blue-900'
-                      : activeStep > step.number
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gray-800 text-gray-400'
-                  } transition-all duration-300 ease-in-out`}>
-                    {React.createElement(step.icon, { size: 24 })}
-                  </div>
-                  <span className={`mt-2 font-medium ${
-                    activeStep === step.number ? 'text-blue-400' : 'text-gray-400'
-                  }`}>
-                    {step.title}
-                  </span>
+            {steps.map((step) => (
+              <div
+                key={step.number}
+                className={`flex items-center ${
+                  activeStep >= step.number ? 'text-blue-500' : 'text-gray-400'
+                }`}
+              >
+                <div
+                  className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
+                    activeStep >= step.number
+                      ? 'border-blue-500 bg-blue-500 text-white'
+                      : 'border-gray-400'
+                  }`}
+                >
+                  <step.icon size={16} />
                 </div>
+                <span className="ml-2 text-sm font-medium">{step.title}</span>
+                {step.number < steps.length && (
+                  <div
+                    className={`w-12 h-0.5 mx-2 ${
+                      activeStep > step.number ? 'bg-blue-500' : 'bg-gray-400'
+                    }`}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -489,28 +501,22 @@ Thank you for choosing Lavimac Royal!`
                     <h3 className="text-xl font-semibold text-white mb-6">Booking Details</h3>
                     <div className="space-y-4">
                       <div>
-                        <p className="text-gray-400 text-sm mb-1">Hotel</p>
-                        <select className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-white">
-                          <option value="lavimac">Lavimac Royal Hotel</option>
-                        </select>
-                      </div>
-                      <div>
                         <p className="text-gray-400 text-sm mb-1">Adults</p>
                         <select 
                           value={adultCount} 
-                          onChange={(e) => setAdultCount(parseInt(e.target.value))}
+                          onChange={(e) => handleSelectChange(e.target.value, setAdultCount)}
                           className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-white"
                         >
                           {[1, 2, 3, 4].map(num => (
-                            <option key={num} value={num}>{num} Adult{num > 1 ? 's' : ''}</option>
+                            <option key={num} value={num}>{num} {num === 1 ? 'Adult' : 'Adults'}</option>
                           ))}
                         </select>
                       </div>
                       <div>
                         <p className="text-gray-400 text-sm mb-1">Children</p>
                         <select 
-                          value={0} 
-                          onChange={(e) => {}}
+                          value={childCount} 
+                          onChange={(e) => handleSelectChange(e.target.value, setChildCount)}
                           className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-white"
                         >
                           {[0, 1, 2, 3].map(num => (
@@ -522,11 +528,11 @@ Thank you for choosing Lavimac Royal!`
                         <p className="text-gray-400 text-sm mb-1">Rooms</p>
                         <select 
                           value={roomCount} 
-                          onChange={(e) => setRoomCount(parseInt(e.target.value))}
+                          onChange={(e) => handleSelectChange(e.target.value, setRoomCount)}
                           className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 text-white"
                         >
                           {[1, 2, 3].map(num => (
-                            <option key={num} value={num}>{num} Room{num > 1 ? 's' : ''}</option>
+                            <option key={num} value={num}>{num} {num === 1 ? 'Room' : 'Rooms'}</option>
                           ))}
                         </select>
                       </div>
@@ -546,79 +552,39 @@ Thank you for choosing Lavimac Royal!`
                         <ChevronLeft size={24} />
                       </button>
                       <div className="text-xl mx-4 text-white font-semibold">
-                        {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })} / {nextMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                        {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
                       </div>
                       <button onClick={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))} className="p-2 text-white hover:bg-gray-800 rounded-full">
                         <ChevronRight size={24} />
                       </button>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      {/* First Month Calendar */}
-                      <div>
-                        <div className="grid grid-cols-7 gap-2">
-                          {weekDays.map((day) => (
-                            <div key={day} className="text-center py-2 font-bold text-gray-400">
-                              {day}
-                            </div>
-                          ))}
-                          {monthDays.map((day, index) => (
-                            <div
-                              key={index}
-                              className={`text-center py-2 rounded-lg transition-colors duration-200 ${
-                                day ? 'hover:bg-gray-800 cursor-pointer' : ''
-                              } ${
-                                checkInDate === `${day}` ? 'bg-blue-500 text-white' : ''
-                              } ${
-                                checkOutDate === `${day}` ? 'bg-blue-500 text-white' : ''
-                              } ${
-                                isDateInRange(day, currentMonth.getMonth(), currentMonth.getFullYear()) 
-                                  ? 'bg-blue-900 bg-opacity-50 text-white' 
-                                  : 'text-white'
-                              } ${
-                                isPastDate(day, currentMonth.getMonth(), currentMonth.getFullYear()) 
-                                  ? 'cursor-not-allowed text-gray-600 hover:bg-transparent' 
-                                  : ''
-                              }`}
-                              onClick={() => day && !isPastDate(day, currentMonth.getMonth(), currentMonth.getFullYear()) && handleDateClick(day, currentMonth.getMonth(), currentMonth.getFullYear())}
-                            >
-                              {day}
-                            </div>
-                          ))}
+                    <div className="grid grid-cols-7 gap-1">
+                      {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
+                        <div key={day} className="text-center py-2 text-gray-400">
+                          {day}
                         </div>
-                      </div>
-                      {/* Second Month Calendar */}
-                      <div>
-                        <div className="grid grid-cols-7 gap-2">
-                          {weekDays.map((day) => (
-                            <div key={day} className="text-center py-2 font-bold text-gray-400">
-                              {day}
-                            </div>
-                          ))}
-                          {nextMonthDays.map((day, index) => (
-                            <div
-                              key={index}
-                              className={`text-center py-2 rounded-lg transition-colors duration-200 ${
-                                day ? 'hover:bg-gray-800 cursor-pointer' : ''
-                              } ${
-                                checkInDate === `${day}` ? 'bg-blue-500 text-white' : ''
-                              } ${
-                                checkOutDate === `${day}` ? 'bg-blue-500 text-white' : ''
-                              } ${
-                                isDateInRange(day, nextMonth.getMonth(), nextMonth.getFullYear()) 
-                                  ? 'bg-blue-900 bg-opacity-50 text-white' 
-                                  : 'text-white'
-                              } ${
-                                isPastDate(day, nextMonth.getMonth(), nextMonth.getFullYear()) 
-                                  ? 'cursor-not-allowed text-gray-600 hover:bg-transparent' 
-                                  : ''
-                              }`}
-                              onClick={() => day && !isPastDate(day, nextMonth.getMonth(), nextMonth.getFullYear()) && handleDateClick(day, nextMonth.getMonth(), nextMonth.getFullYear())}
-                            >
-                              {day}
-                            </div>
-                          ))}
+                      ))}
+                      {generateCalendarDays(currentMonth.getFullYear(), currentMonth.getMonth()).map((day, index) => (
+                        <div
+                          key={index}
+                          className={`text-center py-2 ${
+                            day === null
+                              ? ''
+                              : isDateInPast(day, currentMonth.getMonth(), currentMonth.getFullYear())
+                              ? 'text-gray-600 cursor-not-allowed'
+                              : isDateInRange(day, currentMonth.getMonth(), currentMonth.getFullYear())
+                              ? 'bg-blue-900 bg-opacity-50 text-white cursor-pointer'
+                              : 'text-white cursor-pointer hover:bg-gray-800'
+                          }`}
+                          onClick={() => {
+                            if (day !== null && !isDateInPast(day, currentMonth.getMonth(), currentMonth.getFullYear())) {
+                              handleDateClick(day, currentMonth.getMonth(), currentMonth.getFullYear());
+                            }
+                          }}
+                        >
+                          {day}
                         </div>
-                      </div>
+                      ))}
                     </div>
                     <div className="mt-4 text-sm text-center text-gray-400">
                       Select your dates by clicking on the calendar above
@@ -858,7 +824,7 @@ Thank you for choosing Lavimac Royal!`
                     Print Receipt
                   </button>
                   <button
-                    onClick={() => handleSubmit()}
+                    onClick={handleSubmit}
                     className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 transition-colors duration-300"
                   >
                     Submit
